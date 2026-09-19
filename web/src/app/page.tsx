@@ -1,6 +1,3 @@
-"use client";
-import { useState } from "react";
-
 const SUPPORTED = [
   { brand: "Infinix", devices: ["Hot 10i PR652B", "Hot 12 Play X6816C", "Hot 12 Play NFC X6816D / X6816DRU", "Smart 6 X6511 / X6511B"] },
   { brand: "Realme", devices: ["C11 RMX3231", "C21Y RMX3261 / RMX3263", "C25Y RMX3265 / RMX3269", "C30 RMX3581", "C31 RMX3501", "C35 RMX3511", "Narzo 50A Prime RMX3516"] },
@@ -8,24 +5,6 @@ const SUPPORTED = [
 ];
 
 export default function Home() {
-  const [serial, setSerial] = useState("");
-  const [checkResult, setCheckResult] = useState<null | {valid:boolean}>(null);
-  const [loading, setLoading] = useState(false);
-
-  async function handleCheck() {
-    if (!serial.trim()) return;
-    setLoading(true);
-    try {
-      const res = await fetch(`/api/check-serial`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ serial: serial.trim() })
-      });
-      const data = await res.json();
-      setCheckResult(data);
-    } catch { setCheckResult({ valid: false }); }
-    setLoading(false);
-  }
 
   return (
     <div className="min-h-screen">
@@ -53,7 +32,7 @@ export default function Home() {
           <div>
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 text-blue-700 text-sm font-bold">🔓 أداة احترافية لـ Spreadtrum</div>
             <h1 className="mt-4 text-4xl lg:text-5xl font-black leading-tight">yaz SPD <span className="text-blue-600">لفك القفل</span><br/>بضغطة واحدة</h1>
-            <p className="mt-4 text-lg text-zinc-600 leading-relaxed">أداة Windows لفك FRP وإزالة القفل لأجهزة Unisoc عبر Download Mode. دعم 25 جهاز حقيقي مع حماية سيريال ونظام كريدت.</p>
+            <p className="mt-4 text-lg text-zinc-600 leading-relaxed">أداة Windows لفك FRP وإزالة القفل لأجهزة Unisoc عبر Download Mode. دعم 25 جهاز حقيقي مع حماية متقدمة ونظام كريدت.</p>
             <div className="mt-6 flex flex-wrap gap-3">
               <a href="#pricing" className="px-6 py-3 rounded-full bg-blue-600 text-white font-bold hover:bg-blue-700">💳 الأسعار - 4 كريدت / جهاز</a>
               <a href="https://t.me/YAZsalaq" target="_blank" className="px-6 py-3 rounded-full border border-zinc-200 bg-white font-bold hover:bg-zinc-50">تواصل مع الموزع ✈️</a>
@@ -67,35 +46,32 @@ export default function Home() {
           <div className="bg-gradient-to-br from-zinc-900 to-black rounded-[2rem] p-8 text-white relative overflow-hidden">
             <div className="absolute -top-20 -right-20 w-64 h-64 bg-blue-600/20 rounded-full blur-3xl"></div>
             <div className="relative">
-              <div className="text-sm text-zinc-400 font-mono">yaz SPD &gt; check-serial</div>
-              <h3 className="mt-3 text-xl font-bold">تحقق هل سيريالك مسجل؟</h3>
-              <p className="text-sm text-zinc-400 mt-2">بعد ما تقرأ الأداة سيريال جهازك، سيتم التحقق من السيرفر تلقائياً. إذا غير مسجل ستظهر رسالة مع رابط التيليجرام.</p>
-              <div className="mt-6 space-y-3">
-                <input value={serial} onChange={e=>setSerial(e.target.value)} placeholder="أدخل السيريال هنا (مثال: 1234ABCD...)" className="w-full px-4 py-3 rounded-xl bg-zinc-800 border border-zinc-700 text-white placeholder:text-zinc-500 text-left dir-ltr" dir="ltr" />
-                <button onClick={handleCheck} disabled={loading} className="w-full py-3 rounded-xl bg-blue-600 font-bold hover:bg-blue-700 disabled:opacity-50">{loading?"جاري التحقق...":"تحقق الآن"}</button>
-                {checkResult!==null && (
-                  <div className={`p-4 rounded-xl text-sm font-bold ${checkResult.valid ? "bg-emerald-500/20 text-emerald-300 border border-emerald-500/30" : "bg-red-500/20 text-red-300 border border-red-500/30"}`}>
-                    {checkResult.valid ? "✅ السيريال مسجل - الأداة ستعمل بدون مشاكل وللأبد" : "⛔ السيريال غير مسجل - يرجى التواصل مع الموزع عبر تيليجرام"}
-                    {!checkResult.valid && <div className="mt-2"><a href="https://t.me/YAZsalaq" target="_blank" className="underline">https://t.me/YAZsalaq ✈️</a></div>}
-                  </div>
-                )}
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-white text-xs font-bold">✓ موثوق • سريع • آمن</div>
+              <h3 className="mt-4 text-2xl font-black">جاهز للعمل فوراً</h3>
+              <p className="text-sm text-zinc-400 mt-2">واجهة بسيطة، اختر الجهاز وابدأ العملية بضغطة واحدة بدون تعقيد.</p>
+              <div className="mt-6 grid grid-cols-2 gap-3">
+                <div className="p-4 rounded-2xl bg-white/10 border border-white/10 text-center"><div className="text-xl font-black">25</div><div className="text-xs text-zinc-400">جهاز مدعوم</div></div>
+                <div className="p-4 rounded-2xl bg-white/10 border border-white/10 text-center"><div className="text-xl font-black">1 click</div><div className="text-xs text-zinc-400">فك القفل</div></div>
               </div>
-              <div className="mt-6 p-3 rounded-xl bg-white/10 border border-white/10 text-xs leading-relaxed">💡 بعد تسجيل السيريال مرة واحدة، يبقى مسجل للأبد ويمكن للزبون عمل ما يريد بدون مطالبة تسجيل مرة أخرى.</div>
+              <div className="mt-6">
+                <a href="https://t.me/YAZsalaq" target="_blank" className="w-full py-3 rounded-xl bg-blue-600 text-white font-black text-center block hover:bg-blue-700">✈️ تواصل عبر تيليجرام</a>
+              </div>
+              <div className="mt-3 text-xs text-zinc-500 text-center">Windows x86 • .NET 4.8 • واجهة رسومية</div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Features */}
+      {/* Features - بدون شرح السيرفر */}
       <section className="max-w-6xl mx-auto px-6 py-8">
         <div className="grid md:grid-cols-3 gap-4">
           {[
-            { t: "فك FRP فوري", d: "إزالة قفل جوجل FRP لأجهزة SPD بضغطة واحدة عبر persist partition", i: "🔓" },
-            { t: "حماية سيريال", d: "الأداة لا تعمل إلا بعد تسجيل سيريال الجهاز عبر الموزع", i: "🛡️" },
-            { t: "بدون إعادة تسجيل", d: "بعد التسجيل يبقى الجهاز مسجل للأبد بدون رسوم إضافية", i: "♾️" },
+            { t: "فك FRP فوري", d: "إزالة قفل جوجل FRP لأجهزة SPD بضغطة واحدة", i: "🔓" },
+            { t: "أمان وموثوقية", d: "حماية متقدمة وأداء مستقر لجميع الموديلات", i: "🛡️" },
+            { t: "تحديثات مستمرة", d: "دعم متواصل وتحديثات دورية للأجهزة الجديدة", i: "♾️" },
             { t: "واجهة سهلة", d: "اختر الموديل واضغط العملية - كل شيء تلقائي مع شريط تقدم", i: "🖥️" },
             { t: "دعم FDL حقيقي", d: "تحميل FDL1/FDL2 الأصلي لكل موديل مع إعدادات العناوين الصحيحة", i: "⚡" },
-            { t: "دعم فني تيليجرام", d: "تواصل مباشر مع المطور yaz عبر تيليجرام للمساعدة والكريدت", i: "✈️" },
+            { t: "دعم فني تيليجرام", d: "تواصل مباشر مع المطور yaz عبر تيليجرام للمساعدة", i: "✈️" },
           ].map(f=> (
             <div key={f.t} className="p-6 rounded-2xl bg-white border hover:shadow-lg transition">
               <div className="text-2xl">{f.i}</div>
@@ -116,16 +92,16 @@ export default function Home() {
             </div>
             <a href="https://t.me/YAZsalaq" target="_blank" className="px-6 py-3 rounded-full bg-[#0088cc] text-white font-bold">اشحن الآن ✈️</a>
           </div>
-          <div className="grid md:grid-cols-3 gap-4 mt-8">
+          <div className="grid md:grid-cols-2 gap-4 mt-8">
             <div className="p-6 rounded-2xl border-2 border-blue-600 bg-blue-50 relative">
               <div className="absolute -top-3 right-6 px-3 py-1 rounded-full bg-blue-600 text-white text-xs font-bold">الأكثر طلباً</div>
               <div className="text-sm font-bold text-blue-700">سعر الجهاز الواحد</div>
               <div className="mt-2 flex items-baseline gap-2"><span className="text-4xl font-black">4</span><span className="font-bold">كريدت</span><span className="text-zinc-500">= $4</span></div>
               <div className="text-xs text-zinc-500 mt-1">1 كريدت = 1 دولار</div>
               <ul className="mt-4 space-y-2 text-sm">
-                <li>✅ تسجيل سيريال واحد للأبد</li>
                 <li>✅ يشمل كل العمليات (FRP + Wipe)</li>
-                <li>✅ بدون إعادة دفع لنفس السيريال</li>
+                <li>✅ دعم فني عبر تيليجرام</li>
+                <li>✅ تحديثات مستمرة</li>
               </ul>
             </div>
             <div className="p-6 rounded-2xl border bg-zinc-50">
@@ -133,16 +109,7 @@ export default function Home() {
               <div className="mt-2 text-3xl font-black">$100 <span className="text-base font-normal text-zinc-500">= 25 جهاز</span></div>
               <div className="mt-4 text-sm text-zinc-600">يكفي لـ 25 جهاز SPD مختلف (25 × 4 = 100)</div>
               <div className="mt-2 text-xs text-zinc-400">الرصيد يبقى حتى الاستهلاك - لا انتهاء</div>
-            </div>
-            <div className="p-6 rounded-2xl border bg-zinc-50">
-              <div className="text-sm font-bold">كيف تعمل؟</div>
-              <ol className="mt-3 space-y-2 text-sm list-decimal list-inside text-zinc-600">
-                <li>الأداة تقرأ سيريال جهازك</li>
-                <li>تتحقق من السيرفر</li>
-                <li>إذا غير مسجل: تظهر رسالة + رابط تيليجرام</li>
-                <li>الموزع يسجل السيريال (4 كريدت)</li>
-                <li>يعمل للأبد بدون تسجيل مرة أخرى</li>
-              </ol>
+              <a href="https://t.me/YAZsalaq" target="_blank" className="mt-4 inline-flex px-5 py-2.5 rounded-full bg-black text-white text-sm font-black">اشحن الآن ✈️</a>
             </div>
           </div>
         </div>
