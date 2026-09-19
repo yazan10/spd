@@ -164,7 +164,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Download */}
+      {/* Download - رابط التحميل سيضاف لاحقاً بدون أي إشارة لجيث هاب */}
       <section id="download" className="max-w-6xl mx-auto px-6 py-8">
         <div className="rounded-[2rem] bg-black text-white p-8 md:p-10 flex flex-col md:flex-row items-center justify-between gap-6">
           <div>
@@ -177,8 +177,8 @@ export default function Home() {
             </div>
           </div>
           <div className="flex gap-3">
-            <a href="https://github.com/yazan10/spd" target="_blank" className="px-8 py-4 rounded-full bg-white text-black font-black hover:bg-zinc-100">⬇️ تحميل من GitHub</a>
-            <a href="https://t.me/YAZsalaq" target="_blank" className="px-8 py-4 rounded-full bg-[#0088cc] text-white font-black">✈️ دعم</a>
+            <div className="px-8 py-4 rounded-full bg-zinc-700 text-white font-black opacity-60 cursor-not-allowed">⬇️ التحميل قريباً</div>
+            <a href="https://t.me/YAZsalaq" target="_blank" className="px-8 py-4 rounded-full bg-[#0088cc] text-white font-black hover:bg-[#0099e6]">✈️ تواصل للتحميل</a>
           </div>
         </div>
       </section>
