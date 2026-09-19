@@ -16,19 +16,8 @@ namespace iReverse_UniSPD_FRP.UniSPD
 
         public static async Task UniworkerStart(CancellationToken cancelToken)
         {
-            // فحص ثانوي للترخيص داخل الـ worker (حماية إضافية بدون لمس أوامر BSL)
-            string _serial = MyLicense.GetMachineSerial();
-            bool _licensed = await MyLicense.IsLicensedAsync();
-            if (!_licensed) _licensed = await MyLicense.IsLicensedGetAsync();
-            if (!_licensed)
-            {
-                MyDisplay.RichLogs("License Blocked      : ", Color.Black, true, false);
-                MyDisplay.RichLogs("⛔ سيريال غير مسجل - " + _serial, Color.Red, true, true);
-                MyDisplay.RichLogs("Telegram : https://t.me/YAZsalaq", Color.Blue, true, true);
-                Main.SharedUI.Invoke(new Action(() => iReverseCustomUI.Form_License.ShowLicenseBlocked(_serial)));
-                Main.isUniSPDRunning = false;
-                return;
-            }
+            // سيتم فحص ترخيص سيريال الهاتف بعد الاتصال وقراءة Chip UID
+            // لا نفحص سيريال الكمبيوتر هنا - الفحص الحقيقي بعد قراءة سيريال الهاتف
 
             if (!String.IsNullOrEmpty(WorkerMethod))
             {
@@ -68,6 +57,33 @@ namespace iReverse_UniSPD_FRP.UniSPD
                         await Task.Delay(TimeSpan.FromSeconds(2.0));
                         await uni.send_keepcharge(cancelToken);
                     }
+
+                    // قراءة سيريال الهاتف (Chip UID) والتحقق من الترخيص - السيريال المطلوب هو للهاتف وليس الكمبيوتر
+                    string phoneSerial = await uni.send_read_chip_uid(cancelToken);
+                    if (string.IsNullOrEmpty(phoneSerial))
+                    {
+                        // fallback للاختبار بدون جهاز حقيقي - استخدم سيريال الكمبيوتر للتجربة فقط
+                        phoneSerial = MyLicense.GetMachineSerial();
+                        MyDisplay.RichLogs("Phone Serial Fallback : ", Color.Black, true, false);
+                        MyDisplay.RichLogs(phoneSerial + " (PC Fallback - للاختبار)", Color.DarkOrange, true, true);
+                    }
+                    MyDisplay.RichLogs("Phone Serial Check   : ", Color.Black, true, false);
+                    MyDisplay.RichLogs(phoneSerial, Color.DarkBlue, true, true);
+                    bool phoneLicensed = await MyLicense.IsPhoneLicensedAsync(phoneSerial);
+                    if (!phoneLicensed) phoneLicensed = await MyLicense.IsPhoneLicensedGetAsync(phoneSerial);
+                    if (!phoneLicensed)
+                    {
+                        MyDisplay.RichLogs("License Blocked      : ", Color.Black, true, false);
+                        MyDisplay.RichLogs("⛔ سيريال الهاتف غير مسجل - " + phoneSerial, Color.Red, true, true);
+                        MyDisplay.RichLogs("سيريال الهاتف يجب تسجيله عبر الموزع (4 كريدت)", Color.Red, true, true);
+                        MyDisplay.RichLogs("Telegram : https://t.me/YAZsalaq", Color.Blue, true, true);
+                        Main.SharedUI.Invoke(new Action(() => iReverseCustomUI.Form_License.ShowLicenseBlocked(phoneSerial)));
+                        Main.isUniSPDRunning = false;
+                        Main.myserial.Dispose();
+                        return;
+                    }
+                    MyDisplay.RichLogs("Phone License        : ", Color.Black, true, false);
+                    MyDisplay.RichLogs("✓ مرخص - سيريال الهاتف مسجل ويعمل للأبد", Color.Lime, true, true);
 
                     await UniworkerTodo(cancelToken);
                     await Task.Delay(TimeSpan.FromSeconds(2.0));

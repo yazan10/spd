@@ -23,6 +23,9 @@ namespace iReverse_UniSPD_FRP.UniSPD
 
         public static bool isPartitionOperation = false;
         public static byte[] buffer;
+        // سيريال الهاتف المقروء عبر BSL (Chip UID) - يستخدم للترخيص بدل سيريال الكمبيوتر
+        public static string PhoneSerial = "";
+        public static bool isReadChipUid = false;
 
         public static void WRITE32_LE(ref byte[] p, uint a)
         {
@@ -402,6 +405,38 @@ namespace iReverse_UniSPD_FRP.UniSPD
             return isACK;
         }
 
+        public static async Task<string> send_read_chip_uid(CancellationToken cancelToken)
+        {
+            isReadChipUid = false;
+            PhoneSerial = "";
+            MyDisplay.RichLogs("Reading Phone Serial : ", Color.Black, true, false);
+            await send_data(generate_packet((int)Uni_CMD.BSL.CMD_READ_CHIP_UID), 0, cancelToken);
+            // انتظار الرد لمدة ~3 ثواني
+            int waited = 0;
+            while (!isReadChipUid && waited < 30)
+            {
+                await Task.Delay(100, cancelToken);
+                waited++;
+            }
+            if (!string.IsNullOrEmpty(PhoneSerial))
+            {
+                MyDisplay.RichLogs(PhoneSerial, Color.DarkBlue, true, true);
+                MyDisplay.RichLogs("Phone Serial OK      : ", Color.Black, true, false);
+                MyDisplay.RichLogs(PhoneSerial, Color.Lime, true, true);
+            }
+            else
+            {
+                MyDisplay.RichLogs("No Serial / Fallback", Color.DarkOrange, true, true);
+            }
+            return PhoneSerial;
+        }
+
+        public static async Task<string> send_read_chip_type(CancellationToken cancelToken)
+        {
+            await send_data(generate_packet((int)Uni_CMD.BSL.CMD_READ_CHIP_TYPE), 0, cancelToken);
+            return PhoneSerial;
+        }
+
         public static async Task<bool> send_select_partition(
             string name,
             ulong size,
@@ -759,6 +794,39 @@ namespace iReverse_UniSPD_FRP.UniSPD
                         isACK = false;
                         return false;
                     }
+                }
+                if (response == (int)Uni_CMD.BSL.REP_READ_CHIP_UID)
+                {
+                    try
+                    {
+                        if (Data != null && Data.Length > 5)
+                        {
+                            byte[] uidBytes = TakeByte(Data, 3, (ulong)(Data.Length - 5));
+                            if (uidBytes != null && uidBytes.Length > 0)
+                            {
+                                PhoneSerial = BytesToHextring(uidBytes).ToUpper();
+                                // إزالة الأصفار الزائدة إن وجدت
+                                PhoneSerial = PhoneSerial.Trim('0');
+                                if (string.IsNullOrEmpty(PhoneSerial)) PhoneSerial = BytesToHextring(uidBytes).ToUpper();
+                            }
+                        }
+                        if (!string.IsNullOrEmpty(PhoneSerial))
+                        {
+                            MyDisplay.RichLogs("Phone Chip UID       : ", Color.Black, true, false);
+                            MyDisplay.RichLogs(PhoneSerial, Color.DarkBlue, true, true);
+                            Console.WriteLine("Phone Chip UID: " + PhoneSerial);
+                        }
+                    }
+                    catch { }
+                    isReadChipUid = true;
+                    isACK = true;
+                    return true;
+                }
+                if (response == (int)Uni_CMD.BSL.REP_READ_CHIP_TYPE)
+                {
+                    isReadChipUid = true;
+                    isACK = true;
+                    return true;
                 }
             }
             isACK = true;

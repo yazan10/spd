@@ -92,29 +92,9 @@ namespace iReverse_UniSPD_FRP.UniSPD.Method
         {
             try
             {
-                // === فحص الترخيص قبل أي عملية - لا يمس الأوامر الأصلية ===
-                string serial = MyLicense.GetMachineSerial();
-                MyDisplay.RichLogs("Checking License     : ", Color.Black, true, false);
-                MyDisplay.RichLogs(serial, Color.DarkBlue, true, true);
-                bool licensed = await MyLicense.IsLicensedAsync();
-                if (!licensed)
-                {
-                    // محاولة GET كـ fallback
-                    licensed = await MyLicense.IsLicensedGetAsync();
-                }
-                if (!licensed)
-                {
-                    MyDisplay.RichLogs("License Status       : ", Color.Black, true, false);
-                    MyDisplay.RichLogs("⛔ غير مسجل - يرجى تسجيل السيريال عبر الموزع", Color.Red, true, true);
-                    MyDisplay.RichLogs("Serial : " + serial + " | Hash : " + MyLicense.GetHashedSerial(), Color.Crimson, true, true);
-                    MyDisplay.RichLogs("Telegram : https://t.me/YAZsalaq", Color.Blue, true, true);
-                    Main.isUniSPDRunning = false;
-                    // إظهار نافذة الترخيص مع أيقونة تيليجرام
-                    iReverseCustomUI.Form_License.ShowLicenseBlocked(serial);
-                    return;
-                }
-                MyDisplay.RichLogs("License Status       : ", Color.Black, true, false);
-                MyDisplay.RichLogs("✓ مرخص", Color.Green, true, true);
+                // سيتم فحص سيريال الهاتف بعد الاتصال عبر BSL - لا نفحص سيريال الكمبيوتر هنا
+                MyDisplay.RichLogs("Phone License Check  : ", Color.Black, true, false);
+                MyDisplay.RichLogs("سيتم قراءة سيريال الهاتف بعد الاتصال", Color.DarkOrange, true, true);
 
                 Main.isUniSPDRunning = true;
                 var token = Main.cts.Token;

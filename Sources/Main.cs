@@ -23,15 +23,12 @@ namespace iReverse_UniSPD_FRP
             SharedUI = this;
             MyUSBFastConnect.getcomInfo();
             MyListSPDDevice.CreateListDevice();
-            // عرض سيريال الجهاز للمستخدم فور التشغيل
+            // الترخيص الآن على سيريال الهاتف (Chip UID) وليس الكمبيوتر - سيتم قراءته بعد الاتصال
             try
             {
-                string serial = MyLicense.GetMachineSerial();
-                string hash = MyLicense.GetHashedSerial();
-                MyDisplay.RichLogs("Machine Serial       : ", Color.Black, true, false);
-                MyDisplay.RichLogs(serial, Color.DarkBlue, true, true);
-                MyDisplay.RichLogs("License Hash         : ", Color.Black, true, false);
-                MyDisplay.RichLogs(hash, Color.DarkBlue, true, true);
+                MyDisplay.RichLogs("Phone License Mode   : ", Color.Black, true, false);
+                MyDisplay.RichLogs("سيريال الهاتف (Chip UID) سيتم قراءته بعد الاتصال", Color.DarkBlue, true, true);
+                MyDisplay.RichLogs("كل جهاز يحتاج 4 كريدت للتسجيل ويبقى للأبد", Color.DarkOrange, true, true);
                 MyDisplay.RichLogs("Telegram Support     : ", Color.Black, true, false);
                 MyDisplay.RichLogs("https://t.me/YAZsalaq", Color.Blue, true, true);
             }
