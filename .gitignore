@@ -1,0 +1,22 @@
+# C# build
+Sources/bin/
+Sources/obj/
+*.suo
+*.user
+*.userosscache
+.vs/
+# Web
+web/node_modules/
+web/.next/
+web/out/
+web/dist/
+# Env
+.env
+.env.local
+web/.env.local
+web/.vercel
+# OS
+.DS_Store
+Thumbs.db
+# Data runtime (keep initial but ignore local changes? keep tracked)
+/tmp
