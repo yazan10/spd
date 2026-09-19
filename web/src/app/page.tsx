@@ -144,8 +144,8 @@ export default function Home() {
             </div>
           </div>
           <div className="flex gap-3">
-            <div className="px-8 py-4 rounded-full bg-zinc-700 text-white font-black opacity-60 cursor-not-allowed">⬇️ التحميل قريباً</div>
-            <a href="https://t.me/YAZsalaq" target="_blank" className="px-8 py-4 rounded-full bg-[#0088cc] text-white font-black hover:bg-[#0099e6]">✈️ تواصل للتحميل</a>
+            <a href="https://www.mediafire.com/file/qblpk7ktxdt3ary/yaz+SPD.zip/file" target="_blank" className="px-8 py-4 rounded-full bg-white text-black font-black hover:bg-zinc-100">⬇️ تحميل yaz SPD</a>
+            <a href="https://t.me/YAZsalaq" target="_blank" className="px-8 py-4 rounded-full bg-[#0088cc] text-white font-black hover:bg-[#0099e6]">✈️ دعم</a>
           </div>
         </div>
       </section>

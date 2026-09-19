@@ -75,6 +75,33 @@ export default function AdminPage(){
     setLoading(false);
   }
 
+  async function handleZero(){
+    if(!confirm("تأكيد تصفير جميع الأرقام؟ سيتم حذف كل السيريالات وتصفير الرصيد إلى 0")) return;
+    setLoading(true);
+    const res = await fetch(`${API_BASE}/api/reset`,{method:"POST", headers:{"Content-Type":"application/json","X-Admin-Password":pass}, body: JSON.stringify({password:pass})});
+    const data = await res.json();
+    if(res.ok){ showMsg("تم تصفير جميع الأرقام بنجاح", "ok"); await loadData(pass); } else showMsg(data.error||"فشل التصفير", "err");
+    setLoading(false);
+  }
+
+  function handleExportJSON(){
+    const data = JSON.stringify(lics, null, 2);
+    const blob = new Blob([data], {type:"application/json"});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a"); a.href=url; a.download=`yaz-spd-serials-${new Date().toISOString().slice(0,10)}.json`; a.click(); URL.revokeObjectURL(url);
+    showMsg(`تم تصدير ${lics.length} سيريال كـ JSON`, "ok");
+  }
+
+  function handleExportCSV(){
+    const header = "serial,hash,device,addedAt,creditsUsed\n";
+    const rows = lics.map(l=> `"${l.serial}","${l.hash||""}","${(l.device||"").replace(/"/g,'""')}","${l.addedAt}",${l.creditsUsed}`).join("\n");
+    const csv = header + rows;
+    const blob = new Blob([csv], {type:"text/csv;charset=utf-8;"});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a"); a.href=url; a.download=`yaz-spd-serials-${new Date().toISOString().slice(0,10)}.csv`; a.click(); URL.revokeObjectURL(url);
+    showMsg(`تم تصدير ${lics.length} سيريال كـ CSV`, "ok");
+  }
+
   async function handleLogout(){
     localStorage.removeItem("yaz_admin_pass");
     setAuthed(false); setPass(""); setLics([]); setCredits(null);
@@ -307,9 +334,12 @@ export default function AdminPage(){
             </div>
           )}
           <div className="p-4 bg-zinc-50 border-t flex flex-wrap gap-2">
-            <a href="https://t.me/YAZsalaq" target="_blank" className="px-4 py-2 rounded-full bg-[#0088cc] text-white text-sm font-black">✈️ تيليجرام الموزع</a>
-            <button onClick={()=>{navigator.clipboard.writeText(JSON.stringify(filtered,null,2)); showMsg("تم نسخ JSON", "ok")}} className="px-4 py-2 rounded-full bg-white border text-sm font-bold hover:bg-zinc-900 hover:text-white transition">📋 نسخ الكل JSON</button>
-            <span className="mr-auto text-xs text-zinc-400 self-center">يتم الحفظ في السيرفر تلقائياً • /tmp + GitHub</span>
+            <a href="https://t.me/YAZsalaq" target="_blank" className="px-4 py-2 rounded-full bg-[#0088cc] text-white text-sm font-black">✈️ تيليجرام</a>
+            <button onClick={handleExportJSON} className="px-4 py-2 rounded-full bg-white border text-sm font-bold hover:bg-black hover:text-white transition">📥 تصدير JSON</button>
+            <button onClick={handleExportCSV} className="px-4 py-2 rounded-full bg-white border text-sm font-bold hover:bg-black hover:text-white transition">📊 تصدير CSV</button>
+            <button onClick={handleZero} className="px-4 py-2 rounded-full bg-red-600 text-white text-sm font-black hover:bg-red-700">🗑️ تصفير الكل</button>
+            <button onClick={()=>{navigator.clipboard.writeText(JSON.stringify(filtered,null,2)); showMsg("تم نسخ JSON", "ok")}} className="px-4 py-2 rounded-full bg-zinc-900 text-white text-sm font-bold hover:bg-black transition">📋 نسخ</button>
+            <span className="mr-auto text-xs text-zinc-400 self-center hidden lg:inline">يتم الحفظ تلقائياً</span>
           </div>
         </div>
 

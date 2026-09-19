@@ -1,13 +1,6 @@
 {
-  "balance": 100,
-  "totalAdded": 100,
+  "balance": 0,
+  "totalAdded": 0,
   "totalUsed": 0,
-  "history": [
-    {
-      "type": "add",
-      "amount": 100,
-      "reason": "رصيد إفتتاحي",
-      "at": "2026-09-19T00:00:00.000Z"
-    }
-  ]
+  "history": []
 }
