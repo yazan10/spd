@@ -1,0 +1,210 @@
+========================================
+دليل المستخدم - أداة yaz SPD
+UniSPD FRP Tools - الإصدار 1.0
+Developed by yaz | 2026
+========================================
+
+Instagram: yaz.salaqq
+Facebook: yazsalaq
+Telegram: https://t.me/YAZsalaq
+الموقع الرسمي: https://yaz-spd.vercel.app
+تحميل الأداة: https://www.mediafire.com/file/qblpk7ktxdt3ary/yaz+SPD.zip/file
+أداة كوالكوم: https://yaz-qualcomm-server.vercel.app/
+
+----------------------------------------
+1- ما هي أداة yaz SPD ؟
+----------------------------------------
+أداة Windows احترافية لفك قفل FRP وإزالة قفل الشاشة ومسح البيانات لأجهزة
+Unisoc / Spreadtrum عبر وضع Download Mode (BSL Protocol).
+تعمل بضغطة واحدة بدون بوكس، مع دعم 25 جهاز حقيقي مجرب.
+
+----------------------------------------
+2- المتطلبات
+----------------------------------------
+- Windows 7 / 10 / 11 (يفضل 10/11) - معمارية x86
+- Microsoft .NET Framework 4.8 (مثبت افتراضياً في ويندوز 10/11)
+- كابل USB أصلي
+- تعريفات SPD Spreadtrum USB Drivers
+- تعطيل توقيع التعريفات (Disable Driver Signature) في ويندوز 11 إذا لزم
+
+----------------------------------------
+3- التعريفات (Drivers) - مهم جداً
+----------------------------------------
+1- حمل تعريفات Spreadtrum SCI USB Drivers (SPD Drivers)
+   - ابحث: "SPD SCI Android USB Driver" أو "Spreadtrum USB Driver"
+2- فك الضغط وشغل Install / DPInst.exe كمسؤول (Run as Administrator)
+3- بعد التثبيت، افتح Device Manager وتأكد من ظهور:
+   - SCI USB2Serial
+   - SPRD U2S Diag
+   - Spreadtrum Diagnostics
+4- إذا لم يتعرف، ثبت أيضاً:
+   - SPD Upgrade Tool Drivers
+   - Zadig (اختر SPRD U2S)
+
+حل مشاكل التعريف:
+- جرب منفذ USB 2.0 وليس 3.0
+- أعد تشغيل الكمبيوتر بعد التثبيت
+- عطل Windows Defender / Antivirus مؤقتاً
+
+----------------------------------------
+4- الأجهزة المدعومة (25 جهاز)
+----------------------------------------
+[Infinix - 6]
+- Hot 10i PR652B
+- Hot 12 Play X6816C / X6816D / X6816DRU (NFC)
+- Smart 6 X6511 / X6511B
+
+[Realme - 9]
+- C11 RMX3231
+- C21Y RMX3261 / RMX3263
+- C25Y RMX3265 / RMX3269
+- C30 RMX3581
+- C31 RMX3501
+- C35 RMX3511
+- Narzo 50A Prime RMX3516
+
+[Techno - 10]
+- Pop 4 BC2C
+- Pop 5 BD2 / BD2P / Go BD1 / Lte BD4
+- Pova Neo LE6H
+- Spark 7 PR651 / PR651E / PR651H
+- Spark 8C KG5K
+
+كلها SPD Unisoc - وضع Download فقط
+
+----------------------------------------
+5- كيف تدخل الجهاز وضع Download Mode
+----------------------------------------
+الطريقة تعتمد على الموديل، جرب بالترتيب:
+
+1- الجهاز مطفي تماماً
+2- اضغط باستمرار Volume Down + وصل الكابل للكمبيوتر
+3- أو Volume Down + Power معاً 5 ثوان ثم وصل الكابل
+4- أو استخدم نقاط Test Point (ابحث عن موديلك + Test Point)
+5- أو إذا كان الجهاز شغال وفيه ADB: adb reboot autodloader
+
+علامة الدخول الصحيح:
+- في الأداة يظهر COM Port جديد مثل "SPRD U2S Diag (COM5)"
+- في Device Manager يظهر "SPRD U2S" بدون علامة تعجب
+
+----------------------------------------
+6- شرح واجهة الأداة
+----------------------------------------
+[Devices] على اليسار:
+- قائمة الأجهزة + مربع بحث اكتب مثلاً C11 أو Spark 7
+
+[Operation] في الوسط:
+- بعد اختيار الجهاز تظهر الأزرار المتاحة
+
+[Logs] على اليمين:
+- سجل العمليات بالتفصيل
+
+[ComboPort] فوق Logs:
+- اختيار المنفذ COM الظاهر تلقائياً
+
+[progressBar] بالأسفل:
+- شريط التقدم + زر STOP لإيقاف العملية
+
+[Credits بالأسفل]:
+- Developed by yaz | IG: yaz.salaqq | FB: yazsalaq | Telegram: t.me/YAZsalaq
+
+----------------------------------------
+7- خطوات التشغيل (بالتفصيل)
+----------------------------------------
+1- فك ضغط yaz SPD.zip وشغل "yaz SPD.exe" كمسؤول (Run as Administrator)
+   - الملف واحد فقط 26MB يحتوي كل شيء (Data + DLL مدمجة)
+
+2- من قائمة Devices اختر جهازك (مثال: Realme C11 RMX3231)
+   - سيظهر في Operation الأزرار المتاحة
+
+3- وصل الجهاز وهو في Download Mode
+   - سيظهر تلقائياً في ComboPort مثل "SPRD U2S Diag (COM5)"
+   - الأداة تختار المنفذ تلقائياً
+
+4- اضغط العملية المطلوبة:
+   - RECOVERY WIPE DATA I + FRP
+   - RECOVERY WIPE DATA II + FRP
+   - RECOVERY FORMAT DATA + FRP
+   - RECOVERY WIPE APP DATA + FRP
+   - RECOVERY WIPE DATA ONLY + FRP
+   - ERASE DATA + FRP
+   - ERASE FRP ONLY
+
+5- انتظر:
+   - Sending FDL1 ... Done
+   - Sending FDL2 ... Done
+   - Erasing data / Recovery command ... OK
+   - Task completed! ... Rebooting...
+
+6- الجهاز سيعيد التشغيل تلقائياً بدون FRP
+
+ملاحظة: أول مرة يأخذ 10-20 ثانية لإرسال FDL، بعدها سريع.
+
+----------------------------------------
+8- شرح العمليات
+----------------------------------------
+- ERASE FRP ONLY: يحذف قفل جوجل فقط (persist 2M) بدون مسح بيانات المستخدم
+- ERASE DATA + FRP: يحذف البيانات + FRP (يحذف userdata ويكتب misc)
+- RECOVERY WIPE ... + FRP: يكتب أمر recovery في misc ثم يحذف FRP - مفيد لبعض الموديلات العنيدة
+
+جرب ERASE FRP ONLY أولاً، إذا لم ينجح جرب RECOVERY WIPE DATA I + FRP
+
+----------------------------------------
+9- نظام الكريدت
+----------------------------------------
+- كل جهاز يحتاج 4 كريدت = $4 للتسجيل
+- 1 كريدت = $1
+- مثال: باقة 100 كريدت = $100 = 25 جهاز
+- بعد تسجيل سيريال الهاتف (Chip UID) يبقى مسجل للأبد بدون إعادة دفع لنفس الجهاز
+- إذا ظهرت رسالة "سيريال الهاتف غير مسجل - يرجى التواصل مع الموزع" انسخ السيريال الظاهر وتواصل:
+  Telegram: https://t.me/YAZsalaq
+  سيقوم الموزع بتسجيله فوراً عبر لوحة الأدمن
+
+----------------------------------------
+10- حل المشاكل
+----------------------------------------
+- لا يظهر COM Port:
+  * أعد تثبيت التعريفات كمسؤول
+  * جرب كابل آخر ومنفذ USB 2.0
+  * تأكد الجهاز في Download Mode فعلاً
+
+- Sending FDL Failed / Download Size Error:
+  * تأكد من اختيار الموديل الصحيح
+  * جرب Timeout 1000ms أو 1500ms من ComboBox
+  * أعد المحاولة
+
+- Task Stopped / Error Can't open port:
+  * اضغط STOP وانتظر 3 ثوان
+  * افصل وصل الجهاز وأعد إدخاله Download Mode
+
+- الأداة تغلق فجأة:
+  * الأداة محمية ضد أدوات الاختراق (x64dbg, Wireshark, dnSpy, CheatEngine...)
+  * أغلق أي أداة تحليل/اختراق في الخلفية وأعد تشغيلها
+
+- Device not found بعد العملية:
+  * طبيعي، الجهاز سيعيد التشغيل ويأخذ 2-3 دقائق أول مرة
+
+----------------------------------------
+11- ملاحظات مهمة
+----------------------------------------
+- الأداة مشفرة بالكامل ومحمية بأعلى معايير: تشفير النصوص + فحص التعديل + كشف المصحح كل 2 ثانية ويغلق تلقائياً إذا اكتشف أداة اختراق
+- ملف واحد فقط yaz SPD.exe يحتوي كل شيء (Data + DLL) - لا تحذف Data.zip من داخل exe
+- لا تعمل على Virtual Machine
+- للحماية القصوى شغلها على Windows حقيقي وليس VM
+
+----------------------------------------
+12- معلومات المطور
+----------------------------------------
+yaz
+Instagram: yaz.salaqq
+Facebook: yazsalaq
+Telegram: https://t.me/YAZsalaq
+الموقع: https://yaz-spd.vercel.app
+أداة كوالكوم: https://yaz-qualcomm-server.vercel.app/
+
+© 2026 yaz - جميع الحقوق محفوظة
+للدعم الفني تواصل تيليجرام فقط
+
+========================================
+نهاية الدليل - بالتوفيق
+========================================

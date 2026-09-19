@@ -168,6 +168,20 @@ export default function Home() {
         </div>
       </section>
 
+      {/* دليل المستخدم */}
+      <section className="max-w-6xl mx-auto px-6 py-4">
+        <div className="rounded-2xl bg-amber-50 border border-amber-200 p-6 flex flex-col md:flex-row items-center justify-between gap-4">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-amber-500 text-white grid place-items-center">📖</div>
+            <div>
+              <div className="font-black">دليل المستخدم الشامل</div>
+              <div className="text-xs text-zinc-600">شرح التشغيل والتعريفات وكل شيء عن الأداة (210 سطر)</div>
+            </div>
+          </div>
+          <a href="/دليل-المستخدم-yaz-SPD.txt" download className="px-6 py-3 rounded-full bg-amber-500 text-white font-black hover:bg-amber-600 whitespace-nowrap">📥 تحميل الدليل TXT</a>
+        </div>
+      </section>
+
       <footer className="max-w-6xl mx-auto px-6 py-10 text-center text-sm text-zinc-500 border-t mt-8">
         <div className="font-bold text-zinc-900">yaz SPD • Developed by yaz</div>
         <div className="mt-1 flex flex-wrap justify-center gap-3">
