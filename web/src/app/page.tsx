@@ -150,6 +150,24 @@ export default function Home() {
         </div>
       </section>
 
+      {/* YAZ Qualcomm Tool */}
+      <section className="max-w-6xl mx-auto px-6 py-8">
+        <div className="rounded-[2rem] bg-gradient-to-br from-violet-600 via-indigo-600 to-purple-700 p-8 md:p-10 flex flex-col md:flex-row items-center justify-between gap-6 shadow-xl shadow-indigo-500/20">
+          <div className="flex items-center gap-4">
+            <div className="w-14 h-14 rounded-2xl bg-white text-indigo-600 grid place-items-center font-black text-xl shadow">Q</div>
+            <div>
+              <h3 className="text-2xl font-black text-white leading-none">YAZ Qualcomm Tool</h3>
+              <p className="text-white/80 text-sm mt-1">أداة احترافية لأجهزة كوالكوم - الموقع الرسمي</p>
+              <div className="mt-2 flex gap-2 text-xs">
+                <span className="px-2.5 py-1 rounded-full bg-white/20 text-white font-bold">Qualcomm</span>
+                <span className="px-2.5 py-1 rounded-full bg-white/20 text-white">EDL / FRP</span>
+              </div>
+            </div>
+          </div>
+          <a href="https://yaz-qualcomm-server.vercel.app/" target="_blank" className="px-8 py-4 rounded-full bg-white text-indigo-600 font-black hover:bg-zinc-100 shadow-lg whitespace-nowrap">اذهب الان للتحميل →</a>
+        </div>
+      </section>
+
       <footer className="max-w-6xl mx-auto px-6 py-10 text-center text-sm text-zinc-500 border-t mt-8">
         <div className="font-bold text-zinc-900">yaz SPD • Developed by yaz</div>
         <div className="mt-1 flex flex-wrap justify-center gap-3">
