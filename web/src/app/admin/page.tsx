@@ -24,10 +24,12 @@ export default function AdminPage(){
     if (saved){ setPass(saved); checkAuth(saved); }
   },[]);
 
+  const API_BASE = "https://yaz-spd.vercel.app";
+
   async function checkAuth(pw:string){
     setError(""); setLoading(true);
     try{
-      const res = await fetch("/api/auth",{method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify({password:pw})});
+      const res = await fetch(`${API_BASE}/api/auth`,{method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify({password:pw})});
       if (res.ok){ setAuthed(true); localStorage.setItem("yaz_admin_pass", pw); await loadData(pw); }
       else { setError("كلمة المرور غير صحيحة - الباس هو yaz@#spd"); setAuthed(false); }
     } catch { setError("خطأ اتصال بالسيرفر"); }
@@ -37,9 +39,9 @@ export default function AdminPage(){
   async function loadData(pw:string){
     const h = { "X-Admin-Password": pw };
     try{
-      const r1 = await fetch("/api/licenses",{headers:h});
+      const r1 = await fetch(`${API_BASE}/api/licenses`,{headers:h});
       if (r1.ok){ const d=await r1.json(); setLics(d.licenses || []); setCredits(d.credits); return; }
-      const r2=await fetch("/api/credits",{headers:h}); if(r2.ok) setCredits(await r2.json());
+      const r2=await fetch(`${API_BASE}/api/credits`,{headers:h}); if(r2.ok) setCredits(await r2.json());
     } catch {}
   }
 
@@ -50,7 +52,7 @@ export default function AdminPage(){
   async function handleAdd(){
     if (!newSerial.trim()){ showMsg("أدخل السيريال أولاً", "err"); return; }
     setLoading(true);
-    const res = await fetch("/api/licenses",{method:"POST", headers:{"Content-Type":"application/json","X-Admin-Password":pass}, body: JSON.stringify({ serial:newSerial.trim(), hash:newHash.trim(), device:newDevice.trim(), password:pass })});
+    const res = await fetch(`${API_BASE}/api/licenses`,{method:"POST", headers:{"Content-Type":"application/json","X-Admin-Password":pass}, body: JSON.stringify({ serial:newSerial.trim(), hash:newHash.trim(), device:newDevice.trim(), password:pass })});
     const data = await res.json();
     if (res.ok){ showMsg(data.message || `تم تسجيل ${newSerial.trim()} بنجاح - خصم 4 كريدت`, "ok"); setNewSerial(""); setNewHash(""); setNewDevice(""); await loadData(pass); }
     else showMsg(data.error||"فشل التسجيل", "err");
@@ -59,7 +61,7 @@ export default function AdminPage(){
 
   async function handleDelete(s:string){
     if(!confirm(`حذف السيريال ${s} ؟`)) return;
-    const res = await fetch("/api/licenses",{method:"DELETE", headers:{"Content-Type":"application/json","X-Admin-Password":pass}, body: JSON.stringify({serial:s, password:pass})});
+    const res = await fetch(`${API_BASE}/api/licenses`,{method:"DELETE", headers:{"Content-Type":"application/json","X-Admin-Password":pass}, body: JSON.stringify({serial:s, password:pass})});
     if(res.ok){ showMsg(`تم حذف ${s}`, "ok"); loadData(pass); } else showMsg("فشل الحذف", "err");
   }
 
@@ -67,7 +69,7 @@ export default function AdminPage(){
     const amt = parseInt(addAmount);
     if(!amt || amt<=0){ showMsg("أدخل كمية صحيحة", "err"); return; }
     setLoading(true);
-    const res = await fetch("/api/credits",{method:"POST", headers:{"Content-Type":"application/json","X-Admin-Password":pass}, body: JSON.stringify({amount:amt, reason:"شحن يدوي من الأدمن", password:pass})});
+    const res = await fetch(`${API_BASE}/api/credits`,{method:"POST", headers:{"Content-Type":"application/json","X-Admin-Password":pass}, body: JSON.stringify({amount:amt, reason:"شحن يدوي من الأدمن", password:pass})});
     const data = await res.json();
     if(res.ok){ showMsg(`تم شحن ${amt} كريدت بنجاح`, "ok"); await loadData(pass); setAddAmount("25"); } else showMsg(data.error||"فشل الشحن", "err");
     setLoading(false);
