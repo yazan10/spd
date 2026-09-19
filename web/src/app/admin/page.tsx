@@ -31,7 +31,7 @@ export default function AdminPage(){
     try{
       const res = await fetch(`${API_BASE}/api/auth`,{method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify({password:pw})});
       if (res.ok){ setAuthed(true); localStorage.setItem("yaz_admin_pass", pw); await loadData(pw); }
-      else { setError("كلمة المرور غير صحيحة - الباس هو yaz@#spd"); setAuthed(false); }
+      else { setError("كلمة المرور غير صحيحة"); setAuthed(false); }
     } catch { setError("خطأ اتصال بالسيرفر"); }
     setLoading(false);
   }
@@ -117,13 +117,9 @@ export default function AdminPage(){
 
               {error && <div className="p-3.5 rounded-2xl bg-red-50 border border-red-200 text-red-700 text-sm font-bold text-center">{error}</div>}
 
-              <div className="bg-amber-50 border border-amber-200 rounded-2xl p-4">
-                <div className="text-xs font-black text-amber-800">💡 بيانات الدخول الافتراضية</div>
-                <div className="mt-2 font-mono text-sm bg-white border rounded-xl px-3 py-2 flex items-center justify-between">
-                  <span className="font-black tracking-widest">yaz@#spd</span>
-                  <button onClick={()=>{navigator.clipboard.writeText("yaz@#spd"); showMsg("تم نسخ الباس", "ok")}} className="text-xs px-3 py-1 rounded-full bg-black text-white font-bold">نسخ</button>
-                </div>
-                <div className="text-[11px] text-amber-700 mt-2 leading-relaxed">هذه اللوحة مخفية تماماً عن موقع المستخدمين. لا يوجد أي رابط لها في الموقع العام.</div>
+              <div className="bg-zinc-50 border border-zinc-200 rounded-2xl p-4 text-center">
+                <div className="text-xs text-zinc-500 leading-relaxed">هذه اللوحة خاصة بالموزعين المعتمدين فقط<br/>تواصل مع المطور عبر تيليجرام للحصول على صلاحية الدخول</div>
+                <a href="https://t.me/YAZsalaq" target="_blank" className="mt-3 inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#0088cc] text-white text-xs font-black">✈️ تواصل تيليجرام</a>
               </div>
 
               <div className="flex items-center justify-center gap-2 text-xs text-zinc-400 pt-2 border-t">
@@ -134,7 +130,7 @@ export default function AdminPage(){
             </div>
           </div>
 
-          <div className="text-center mt-6 text-xs text-zinc-500">© 2026 yaz • كل الحقوق محفوظة • <span className="text-zinc-300">التحميل قريباً</span></div>
+          <div className="text-center mt-6 text-xs text-zinc-500">2026 yaz - كل الحقوق محفوظة - <span className="text-zinc-300">التحميل قريبا</span></div>
         </div>
       </div>
     );
@@ -340,7 +336,7 @@ export default function AdminPage(){
       </main>
 
       <footer className="max-w-[1200px] mx-auto px-6 py-8 text-center text-xs text-zinc-400">
-        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white border">yaz SPD Admin • الباس: yaz@#spd • مخفي عن المستخدمين • <a href="https://t.me/YAZsalaq" className="underline font-black text-black">t.me/YAZsalaq</a></div>
+        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white border">yaz SPD Admin • مخفي عن المستخدمين • <a href="https://t.me/YAZsalaq" className="underline font-black text-black">t.me/YAZsalaq</a></div>
       </footer>
     </div>
   );
